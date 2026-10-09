@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/components/Legal";
+import { EmailLink } from "@/components/EmailLink";
 import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -90,7 +91,7 @@ export default function Page() {
         <h2>Contact</h2>
         <p>
           {SITE.legalName}, {SITE.address.join(", ")}.<br />
-          Email: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+          Email: <EmailLink />
         </p>
       </section>
     </LegalPage>

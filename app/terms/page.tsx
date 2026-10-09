@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/components/Legal";
+import { EmailLink } from "@/components/EmailLink";
 import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -71,7 +72,7 @@ export default function Page() {
       <section>
         <h2>Changes and contact</h2>
         <p>
-          We may update these terms; the latest version is on this page. Questions: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+          We may update these terms; the latest version is on this page. Questions: <EmailLink />.
           See also our <a href="/privacy/">Privacy Policy</a>.
         </p>
       </section>

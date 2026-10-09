@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/components/Legal";
+import { EmailLink } from "@/components/EmailLink";
 import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -23,7 +24,7 @@ export default function Page() {
         <h2>How to request deletion</h2>
         <ul>
           <li>
-            Send an email to <a href={`mailto:${SITE.email}?subject=Account%20deletion%20request`}>{SITE.email}</a> with the subject
+            Send an email to <EmailLink subject="Account deletion request" /> with the subject
             &quot;Account deletion request&quot;.
           </li>
           <li>Include the name, email address and phone number registered in the app, so we can verify that the request is yours.</li>
@@ -57,7 +58,7 @@ export default function Page() {
       <section>
         <h2>Questions</h2>
         <p>
-          Write to <a href={`mailto:${SITE.email}`}>{SITE.email}</a>. See also our <a href="/privacy/">Privacy Policy</a>.
+          Write to <EmailLink />. See also our <a href="/privacy/">Privacy Policy</a>.
         </p>
       </section>
     </LegalPage>

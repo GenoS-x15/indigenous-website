@@ -19,6 +19,7 @@ export const hi: Dict = {
     close: "बंद करें",
   },
   top: { language: "भाषा", writeUs: "हमें लिखें" },
+  email: { copy: "ईमेल कॉपी करें", copied: "कॉपी हो गया" },
   common: {
     learnMore: "और जानें",
     fullGuide: "पूरी देखभाल गाइड खोलें",

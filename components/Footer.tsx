@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useLang } from "./LanguageProvider";
 import { ZoomLink } from "./ZoomLink";
+import { EmailLink } from "./EmailLink";
 import { NAV } from "./Header";
 import { SITE } from "@/lib/site";
 
@@ -52,7 +53,7 @@ export function Footer() {
               <p key={l}>{l}</p>
             ))}
             <p className="pt-2">
-              <a href={`mailto:${SITE.email}`} className="hover:text-white">{SITE.email}</a>
+              <EmailLink className="hover:text-white" copyClassName="hover:bg-forest-900" />
             </p>
             {SITE.phones.map((p) => (
               <p key={p}>

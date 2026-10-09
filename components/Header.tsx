@@ -5,7 +5,8 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useLang } from "./LanguageProvider";
 import { ZoomLink } from "./ZoomLink";
-import { LANGS, SITE } from "@/lib/site";
+import { EmailLink } from "./EmailLink";
+import { LANGS } from "@/lib/site";
 
 export const NAV = [
   { key: "home", href: "/" },
@@ -30,9 +31,7 @@ export function Header() {
       {/* Top bar with language switch */}
       <div className="bg-forest-900 text-forest-50">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-1.5 text-xs sm:px-6">
-          <a href={`mailto:${SITE.email}`} className="truncate opacity-90 hover:opacity-100">
-            {SITE.email}
-          </a>
+          <EmailLink className="truncate opacity-90 hover:opacity-100" copyClassName="hover:bg-forest-800" />
           <div className="flex items-center gap-2" role="group" aria-label={t.top.language}>
             <span className="hidden opacity-80 sm:inline">{t.top.language}</span>
             <div className="flex overflow-hidden rounded-full border border-forest-400/50">

@@ -17,6 +17,7 @@ export const en = {
     close: "Close",
   },
   top: { language: "Language", writeUs: "Write to us" },
+  email: { copy: "Copy email", copied: "Copied" },
   common: {
     learnMore: "Learn more",
     fullGuide: "Open the full care guide",

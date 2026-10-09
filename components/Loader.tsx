@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "./Img";
 import { useEffect, useState } from "react";
 
 /** Rolling company logo, used for the first page load and any waiting state. */

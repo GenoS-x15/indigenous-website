@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { LegalPage } from "@/components/Legal";
 import { EmailLink } from "@/components/EmailLink";
 import { SITE } from "@/lib/site";
@@ -73,7 +74,7 @@ export default function Page() {
         <h2>Retention and deletion</h2>
         <p>
           We keep personal data while your account is active and as needed for the project and legal obligations. You can ask us to
-          delete your account and data at any time; see <a href="/account-deletion/">Account and data deletion</a>.
+          delete your account and data at any time; see <Link href="/account-deletion/">Account and data deletion</Link>.
         </p>
       </section>
 

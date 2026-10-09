@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "./Img";
 import { useLang } from "./LanguageProvider";
 import { TransitionLink } from "./TransitionLink";
 import { EmailLink } from "./EmailLink";

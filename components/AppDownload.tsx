@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useLang } from "./LanguageProvider";
 import { TransitionLink } from "./TransitionLink";
 import { copyText } from "@/lib/clipboard";
-import { SITE, type LangCode } from "@/lib/site";
+import { SITE, asset, type LangCode } from "@/lib/site";
 import appMeta from "@/lib/app-meta.json";
 
 /** Written by scripts/app-meta.mjs before every dev run and build. */
@@ -77,7 +77,7 @@ export function AppDownload({ compact = false, dark = false }: { compact?: boole
 
   return (
     <div>
-      <a href={META.file} download className={btn}>
+      <a href={asset(META.file)} download className={btn}>
         <DownloadIcon />
         {a.apk}
       </a>

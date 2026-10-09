@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { LegalPage } from "@/components/Legal";
 import { EmailLink } from "@/components/EmailLink";
 import { SITE } from "@/lib/site";
@@ -58,7 +59,7 @@ export default function Page() {
       <section>
         <h2>Questions</h2>
         <p>
-          Write to <EmailLink />. See also our <a href="/privacy/">Privacy Policy</a>.
+          Write to <EmailLink />. See also our <Link href="/privacy/">Privacy Policy</Link>.
         </p>
       </section>
     </LegalPage>

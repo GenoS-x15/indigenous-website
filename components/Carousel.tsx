@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "./Img";
 import { useCallback, useEffect, useState } from "react";
 import { useLang } from "./LanguageProvider";
 import { useReducedMotion } from "@/lib/motion";

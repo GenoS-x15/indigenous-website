@@ -1,7 +1,8 @@
-import Image from "next/image";
+import Image from "./Img";
 import { Reveal } from "./Reveal";
 import { HoofPrint, Leaf } from "./Shapes";
 import { Wave } from "./Wave";
+import { asset } from "@/lib/site";
 
 export function Container({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return <div className={`mx-auto max-w-7xl px-4 sm:px-6 ${className}`}>{children}</div>;
@@ -29,9 +30,9 @@ export function WebPicture({
   const { w, h, mobile } = webSize(name);
   return (
     <picture>
-      <source media="(max-width: 767px)" srcSet={`/images/web/${name}${mobile}.webp`} />
+      <source media="(max-width: 767px)" srcSet={asset(`/images/web/${name}${mobile}.webp`)} />
       <img
-        src={`/images/web/${name}.webp`}
+        src={asset(`/images/web/${name}.webp`)}
         alt={alt}
         width={w}
         height={h}

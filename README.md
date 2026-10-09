@@ -26,6 +26,20 @@ npm run build                  # creates the "out" folder
 3. Upload everything inside `out/` (not the folder itself). `.htaccess` is included, so make sure hidden files are shown.
 4. Turn on the free SSL certificate for the domain.
 
+## Publish on GitHub Pages
+
+The site is also set up to publish itself on GitHub Pages at https://genos-x15.github.io/indigenous-website/.
+
+1. One time only, on GitHub: **Settings > Pages > Build and deployment > Source: GitHub Actions**.
+2. Push to `main`. `.github/workflows/deploy.yml` checks, builds and publishes the site (see the **Actions** tab, about 2 minutes).
+
+Because the site lives in the sub-folder `/indigenous-website/`, the workflow builds with `NEXT_PUBLIC_BASE_PATH=/indigenous-website`.
+Page links get this automatically; images do too as long as they use `components/Img.tsx` (lint enforces it) or `asset()` from `lib/site.ts`.
+With your own domain on GitHub Pages, set `NEXT_PUBLIC_BASE_PATH` to empty and `NEXT_PUBLIC_SITE_URL` to the domain in the workflow.
+
+GitHub Pages ignores `.htaccess`, so the security headers, HTTPS redirect settings and APK download headers only apply on Hostinger.
+For Hostinger, build with `NEXT_PUBLIC_BASE_PATH` empty (the default).
+
 `npm run build` also runs two small helper scripts:
 
 - `scripts/app-meta.mjs` (before) reads the Android app file, see below.

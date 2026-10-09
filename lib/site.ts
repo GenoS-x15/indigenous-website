@@ -27,6 +27,12 @@ export const SITE = {
   },
 } as const;
 
+/** Sub-folder the site is served from: "" on its own domain (Hostinger), "/indigenous-website" on GitHub Pages. */
+export const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
+/** Adds the base path to a file path such as "/images/logo.png". Page links get it from Next.js automatically. */
+export const asset = (path: string) => (path.startsWith("/") ? BASE_PATH + path : path);
+
 /** Puts the app name into a text that contains "{app}". */
 export const withApp = (text: string) => text.replaceAll("{app}", SITE.app.name);
 

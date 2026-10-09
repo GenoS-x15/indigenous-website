@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { LegalPage } from "@/components/Legal";
 import { EmailLink } from "@/components/EmailLink";
 import { SITE } from "@/lib/site";
@@ -73,7 +74,7 @@ export default function Page() {
         <h2>Changes and contact</h2>
         <p>
           We may update these terms; the latest version is on this page. Questions: <EmailLink />.
-          See also our <a href="/privacy/">Privacy Policy</a>.
+          See also our <Link href="/privacy/">Privacy Policy</Link>.
         </p>
       </section>
     </LegalPage>

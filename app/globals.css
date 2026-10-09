@@ -59,9 +59,15 @@ body.zoom-out .page-zoom {
   transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
   transition-delay: var(--d, 0ms);
 }
-.reveal.in {
+.reveal[data-shown] {
   opacity: 1;
   transform: none;
+}
+
+/* Safety net: the loader always fades out, even if JavaScript is slow or fails. */
+.ig-loader { animation: ig-loader-out 0.4s ease 2.5s forwards; }
+@keyframes ig-loader-out {
+  to { opacity: 0; visibility: hidden; pointer-events: none; }
 }
 
 .hero-photo { animation: settle 2.4s cubic-bezier(0.2, 0.8, 0.2, 1) both; }

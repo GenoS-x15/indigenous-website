@@ -7,38 +7,37 @@ import { useEffect, useState } from "react";
 export function Spinner({ size = 40, label = "Loading" }: { size?: number; label?: string }) {
   return (
     <span role="status" aria-label={label} className="inline-flex">
-      <Image
-        src="/logo.png"
-        alt=""
-        width={size}
-        height={size}
-        className="animate-roll rounded-full"
-        priority
-      />
+      <Image src="/logo.png" alt="" width={size} height={size} className="animate-roll rounded-full" priority />
     </span>
   );
 }
+
+/** Longest the first-load screen may stay, even if images are still downloading on a slow connection. */
+const MAX_MS = 1200;
 
 export function Loader() {
   const [hide, setHide] = useState(false);
   const [gone, setGone] = useState(false);
 
   useEffect(() => {
-    let timer: number | undefined;
+    // Hide shortly after load, or at MAX_MS, whichever comes first.
+    const cap = window.setTimeout(() => setHide(true), MAX_MS);
+    let soon: number | undefined;
     const finish = () => {
-      timer = window.setTimeout(() => setHide(true), 700);
+      soon = window.setTimeout(() => setHide(true), 300);
     };
     if (document.readyState === "complete") finish();
     else window.addEventListener("load", finish, { once: true });
     return () => {
       window.removeEventListener("load", finish);
-      if (timer) window.clearTimeout(timer);
+      window.clearTimeout(cap);
+      if (soon) window.clearTimeout(soon);
     };
   }, []);
 
   useEffect(() => {
     if (!hide) return;
-    const t = window.setTimeout(() => setGone(true), 600);
+    const t = window.setTimeout(() => setGone(true), 500);
     return () => window.clearTimeout(t);
   }, [hide]);
 

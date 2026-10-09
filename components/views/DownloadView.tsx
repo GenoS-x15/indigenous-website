@@ -11,8 +11,8 @@ export function DownloadView() {
 
   return (
     <>
-      <PageBanner title={withApp(t.app.title)} intro={withApp(t.app.intro)} image="/images/herd-field.jpg" />
-      <section className="py-16 sm:py-20">
+      <PageBanner title={withApp(t.app.title)} intro={withApp(t.app.intro)} image="banner-staff" alt={t.alt.staff} />
+      <section className="py-16 sm:py-24">
         <Container>
           <Reveal className="max-w-3xl text-forest-950">
             <AppDownload />

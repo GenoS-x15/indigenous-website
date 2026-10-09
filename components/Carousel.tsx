@@ -1,112 +1,100 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useLang } from "./LanguageProvider";
+import { useReducedMotion } from "@/lib/motion";
 
 export type Slide = { src: string; title: string; date?: string; text?: string };
 
-function usePerView() {
-  const [n, setN] = useState(1);
-  useEffect(() => {
-    const calc = () => setN(window.innerWidth >= 1024 ? 3 : window.innerWidth >= 640 ? 2 : 1);
-    calc();
-    window.addEventListener("resize", calc);
-    return () => window.removeEventListener("resize", calc);
-  }, []);
-  return n;
-}
+const INTERVAL_MS = 6000;
 
-/** Rolling strip of event photos. Pauses on hover and focus, and respects reduced motion. */
+/** Full-height photo slides with the caption on the photo. Pauses on hover, focus or the pause button. */
 export function Carousel({ slides, label }: { slides: Slide[]; label: string }) {
-  const perView = usePerView();
-  const max = Math.max(0, slides.length - perView);
+  const { t } = useLang();
+  const c = t.carousel;
+  const reduced = useReducedMotion();
   const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const reduced = useRef(false);
+  const [hovered, setHovered] = useState(false);
+  const [stopped, setStopped] = useState(false);
+  const paused = hovered || stopped || reduced;
+
+  const go = useCallback((i: number) => setIndex((i + slides.length) % slides.length), [slides.length]);
 
   useEffect(() => {
-    reduced.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  }, []);
+    if (paused || slides.length < 2) return;
+    const id = window.setTimeout(() => setIndex((i) => (i + 1) % slides.length), INTERVAL_MS);
+    return () => window.clearTimeout(id);
+  }, [paused, index, slides.length]);
 
-  const go = useCallback((i: number) => setIndex(i > max ? 0 : i < 0 ? max : i), [max]);
-
-  useEffect(() => {
-    if (paused || reduced.current || max === 0) return;
-    const id = window.setInterval(() => setIndex((i) => (i >= max ? 0 : i + 1)), 4200);
-    return () => window.clearInterval(id);
-  }, [paused, max]);
-
-  const safeIndex = Math.min(index, max);
+  const s = slides[index];
+  const btn =
+    "flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white/15 text-white ring-1 ring-white/40 backdrop-blur transition hover:bg-white/30";
 
   return (
     <div
       role="region"
       aria-roledescription="carousel"
       aria-label={label}
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocus={() => setPaused(true)}
-      onBlur={() => setPaused(false)}
-      className="relative"
+      className="carousel relative isolate h-[70svh] max-h-[44rem] min-h-[26rem] overflow-hidden bg-forest-950 text-white"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocus={() => setHovered(true)}
+      onBlur={() => setHovered(false)}
     >
-      <div className="overflow-hidden rounded-3xl">
-        <ul
-          className="flex transition-transform duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
-          style={{ transform: `translateX(-${(safeIndex * 100) / perView}%)` }}
+      {slides.map((sl, i) => (
+        <div
+          key={sl.src + i}
+          aria-hidden={i !== index}
+          className={`absolute inset-0 -z-10 transition-[opacity,transform] duration-1000 ${i === index ? "scale-100 opacity-100" : "scale-105 opacity-0"}`}
         >
-          {slides.map((s, i) => (
-            <li
-              key={s.src + i}
-              className="shrink-0 px-2"
-              style={{ width: `${100 / perView}%` }}
-              aria-hidden={i < safeIndex || i >= safeIndex + perView}
-            >
-              <figure className="group overflow-hidden rounded-2xl border border-forest-100 bg-white shadow-sm">
-                <div className="relative aspect-[4/3] overflow-hidden bg-forest-100">
-                  <Image
-                    src={s.src}
-                    alt={s.title}
-                    fill
-                    sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                </div>
-                <figcaption className="p-4">
-                  {s.date && (
-                    <p className="text-xs font-bold uppercase tracking-wider text-forest-600">{s.date}</p>
-                  )}
-                  <p className="mt-1 font-bold leading-snug text-forest-950">{s.title}</p>
-                </figcaption>
-              </figure>
-            </li>
-          ))}
-        </ul>
-      </div>
+          <Image src={sl.src} alt={i === index ? sl.title : ""} fill sizes="100vw" className="object-cover" />
+        </div>
+      ))}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-forest-950/95 via-forest-950/40 to-transparent" />
 
-      {max > 0 && (
-        <div className="mt-5 flex items-center justify-between gap-4">
-          <div className="flex gap-2" role="group" aria-label="Slides">
-            {Array.from({ length: max + 1 }).map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                aria-label={`Slide ${i + 1}`}
-                aria-current={i === safeIndex}
-                onClick={() => go(i)}
-                className={`h-2.5 rounded-full transition-all ${i === safeIndex ? "w-8 bg-forest-700" : "w-2.5 bg-forest-200 hover:bg-forest-400"}`}
-              />
-            ))}
-          </div>
-          <div className="flex gap-2">
-            <button type="button" aria-label="Previous" onClick={() => go(safeIndex - 1)} className="rounded-full border border-forest-200 p-2 text-forest-800 hover:bg-forest-50">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M15 6l-6 6 6 6" /></svg>
+      <div className="flex h-full flex-col justify-end px-5 pb-8 sm:px-10 sm:pb-12 lg:px-16">
+        <div aria-live={paused ? "polite" : "off"} className="max-w-3xl">
+          <p className="text-sm font-semibold text-forest-200">
+            {c.slideOf.replace("{n}", String(index + 1)).replace("{total}", String(slides.length))}
+            {s.date && <span className="ml-3 font-bold uppercase tracking-wider text-forest-300">{s.date}</span>}
+          </p>
+          <h3 className="mt-2 text-2xl font-extrabold leading-tight sm:text-4xl">{s.title}</h3>
+          {s.text && <p className="mt-2 max-w-2xl leading-relaxed text-forest-50/85">{s.text}</p>}
+        </div>
+
+        <div className="mt-8 flex items-center gap-3">
+          <button type="button" aria-label={c.prev} onClick={() => go(index - 1)} className={btn}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden>
+              <path d="M15 5l-7 7 7 7" />
+            </svg>
+          </button>
+          <button type="button" aria-label={c.next} onClick={() => go(index + 1)} className={btn}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden>
+              <path d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+          {!reduced && (
+            <button
+              type="button"
+              aria-label={stopped ? c.play : c.pause}
+              aria-pressed={stopped}
+              onClick={() => setStopped((v) => !v)}
+              className={`${btn} !h-11 !w-11`}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                {stopped ? <path d="M8 5v14l11-7z" /> : <path d="M7 5h4v14H7zM13 5h4v14h-4z" />}
+              </svg>
             </button>
-            <button type="button" aria-label="Next" onClick={() => go(safeIndex + 1)} className="rounded-full border border-forest-200 p-2 text-forest-800 hover:bg-forest-50">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M9 6l6 6-6 6" /></svg>
-            </button>
+          )}
+          {/* Restarts with each slide and after a pause, in step with the timer. */}
+          <div className="ml-2 h-0.5 min-w-0 flex-1 overflow-hidden bg-white/20" aria-hidden>
+            {!paused && (
+              <div key={index} className="progress-line h-full bg-white" style={{ ["--dur" as string]: `${INTERVAL_MS}ms` }} />
+            )}
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }

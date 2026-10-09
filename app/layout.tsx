@@ -4,6 +4,8 @@ import { LanguageProvider } from "@/components/LanguageProvider";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Loader } from "@/components/Loader";
+import { ShapeDefs } from "@/components/Shapes";
+import { HoofTrail } from "@/components/HoofTrail";
 import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -21,7 +23,7 @@ export const metadata: Metadata = {
     description: "Indigenous goat heritage, protected with science, data and community.",
     type: "website",
     locale: "en_IN",
-    images: ["/images/goat-hero.jpg"],
+    images: ["/images/web/hero-goats.webp"],
   },
   referrer: "strict-origin-when-cross-origin",
 };
@@ -40,6 +42,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <style>{`.ig-loader{display:none!important}.reveal{opacity:1!important;transform:none!important}`}</style>
         </noscript>
         <LanguageProvider>
+          <ShapeDefs />
+          <HoofTrail />
           <Loader />
           <a
             href="#content"
@@ -48,7 +52,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             Skip to content
           </a>
           <Header />
-          <main id="content">{children}</main>
+          <main id="content" tabIndex={-1} className="outline-none">
+            {children}
+          </main>
           <Footer />
         </LanguageProvider>
       </body>

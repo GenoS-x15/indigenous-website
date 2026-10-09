@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useLang } from "./LanguageProvider";
-import { ZoomLink } from "./ZoomLink";
+import { TransitionLink } from "./TransitionLink";
 import { copyText } from "@/lib/clipboard";
 import { SITE, type LangCode } from "@/lib/site";
 import appMeta from "@/lib/app-meta.json";
@@ -87,9 +87,9 @@ export function AppDownload({ compact = false, dark = false }: { compact?: boole
 
       {compact ? (
         <p className="mt-2 text-sm">
-          <ZoomLink href="/download/" className={`font-semibold underline underline-offset-4 ${dark ? "text-white" : "text-forest-800"}`}>
+          <TransitionLink href="/download/" className={`font-semibold underline underline-offset-4 ${dark ? "text-white" : "text-forest-800"}`}>
             {a.installTitle}
-          </ZoomLink>
+          </TransitionLink>
         </p>
       ) : (
         <div className="mt-10 space-y-10">

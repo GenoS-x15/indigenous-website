@@ -22,45 +22,46 @@ export function StaffView() {
 
   return (
     <>
-      <PageBanner title={s.title} intro={s.intro} image="/images/events/health-camp-checkup.jpg" />
+      <PageBanner title={s.title} intro={s.intro} image="banner-staff" alt={t.alt.staff} />
 
-      <section className="py-16 sm:py-20">
-        <Container className="grid gap-8 lg:grid-cols-2">
-          <Reveal className="rounded-3xl border-2 border-forest-700 bg-white p-8 shadow-lg shadow-forest-900/10">
-            <h2 className="text-2xl font-extrabold text-forest-900">{t.nav.staff}</h2>
-            <p className="mt-3 leading-relaxed text-forest-950/85">{s.secure}</p>
+      <section className="py-16 sm:py-24">
+        <Container className="grid gap-14 lg:grid-cols-2 lg:gap-20">
+          {/* The admin panel sign-in: the one card on this page */}
+          <Reveal className="rounded-[2rem] bg-forest-900 p-8 text-white shadow-xl shadow-forest-900/20 sm:p-10">
+            <h2 className="text-3xl font-extrabold">{t.nav.staff}</h2>
+            <p className="mt-4 leading-relaxed text-forest-100">{s.secure}</p>
             <button
               type="button"
               onClick={openAdmin}
               disabled={!SITE.adminUrl}
-              className="mt-7 inline-flex items-center gap-3 rounded-full bg-forest-700 px-7 py-3.5 font-bold text-white transition enabled:hover:bg-forest-800 disabled:cursor-not-allowed disabled:bg-forest-300"
+              className="mt-8 inline-flex items-center gap-3 rounded-full bg-white px-7 py-3.5 font-bold text-forest-900 transition enabled:hover:bg-forest-100 disabled:cursor-not-allowed disabled:bg-white/60"
             >
               {opening && <Spinner size={22} label={t.common.loading} />}
               {SITE.adminUrl ? s.open : `${s.open} (${t.common.comingSoon})`}
             </button>
           </Reveal>
 
-          <Reveal delay={120} className="rounded-3xl bg-forest-50 p-8">
-            <h2 className="text-2xl font-extrabold text-forest-900">{s.appTitle}</h2>
-            <p className="mt-3 leading-relaxed text-forest-950/85">{withApp(s.appText)}</p>
-            <div className="mt-7">
+          <Reveal delay={120} className="text-forest-950">
+            <h2 className="text-3xl font-extrabold text-forest-950">{s.appTitle}</h2>
+            <p className="mt-4 leading-relaxed text-forest-900/85">{withApp(s.appText)}</p>
+            <div className="mt-8">
               <AppDownload />
             </div>
           </Reveal>
         </Container>
       </section>
 
-      <section className="bg-forest-50 pb-16 pt-4 sm:pb-20">
+      <section className="bg-forest-50 py-16 sm:py-24">
         <Container>
           <SectionTitle title={s.rolesTitle} />
-          <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <dl className="mt-10">
             {s.roles.map((r, i) => (
-              <Reveal as="li" key={r.t} delay={i * 80} className="rounded-2xl border border-forest-100 bg-white p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-forest-900">{r.t}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-forest-950/80">{r.d}</p>
+              <Reveal key={r.t} delay={i * 70} className="grid gap-2 border-b border-forest-900/10 py-6 md:grid-cols-[16rem_1fr] md:gap-10">
+                <dt className="text-xl font-extrabold text-forest-950">{r.t}</dt>
+                <dd className="leading-relaxed text-forest-900/85">{r.d}</dd>
               </Reveal>
             ))}
-          </ul>
+          </dl>
         </Container>
       </section>
     </>

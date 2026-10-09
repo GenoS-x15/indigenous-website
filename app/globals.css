@@ -13,6 +13,7 @@
   --color-forest-900: #14532d;
   --color-forest-950: #052e16;
   --color-ink: #12261a;
+  --color-soil: #b45309;
   --font-sans: "Segoe UI", "Noto Sans", "Noto Sans Devanagari", "Nirmala UI", "Mangal", system-ui, -apple-system, Roboto, sans-serif;
   --animate-roll: roll 1.4s linear infinite;
 }
@@ -22,17 +23,8 @@
   to { transform: rotate(360deg); }
 }
 
-@keyframes zoomIn {
-  from { opacity: 0; transform: scale(0.93); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes settle {
-  from { transform: scale(1.12); }
-  to { transform: scale(1); }
-}
-
-html { scroll-behavior: smooth; }
+/* Clip anything decorative that pokes past the screen edge, without breaking the sticky header. */
+html { scroll-behavior: smooth; overflow-x: clip; }
 
 body {
   background: #ffffff;
@@ -41,45 +33,9 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Page transition: the next page zooms in, the current one zooms out. */
-.page-zoom {
-  animation: zoomIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
-  transform-origin: 50% 12%;
-}
-body.zoom-out .page-zoom {
-  transition: transform 0.22s ease-in, opacity 0.22s ease-in;
-  transform: scale(1.07);
-  opacity: 0;
-}
-
-/* Scroll reveal: elements zoom gently into place. */
-.reveal {
-  opacity: 0;
-  transform: scale(0.94) translateY(18px);
-  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
-  transition-delay: var(--d, 0ms);
-}
-.reveal[data-shown] {
-  opacity: 1;
-  transform: none;
-}
-
-/* Safety net: the loader always fades out, even if JavaScript is slow or fails. */
-.ig-loader { animation: ig-loader-out 0.4s ease 2.5s forwards; }
-@keyframes ig-loader-out {
-  to { opacity: 0; visibility: hidden; pointer-events: none; }
-}
-
-.hero-photo { animation: settle 2.4s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
-
-.leaf-bg {
-  background-image:
-    radial-gradient(circle at 12% 18%, rgba(34, 197, 94, 0.12) 0, transparent 38%),
-    radial-gradient(circle at 88% 80%, rgba(21, 128, 61, 0.1) 0, transparent 42%);
-}
-
-.no-scrollbar { scrollbar-width: none; }
-.no-scrollbar::-webkit-scrollbar { display: none; }
+/* Letter spacing breaks up joined Devanagari letters, so Hindi and Marathi use normal spacing. */
+html:lang(hi) [class*="tracking-"],
+html:lang(mr) [class*="tracking-"] { letter-spacing: normal; }
 
 :focus-visible {
   outline: 3px solid var(--color-forest-500);
@@ -87,9 +43,122 @@ body.zoom-out .page-zoom {
   border-radius: 6px;
 }
 
+/* ---------- Page transitions (variants are chosen per route in lib/transitions.ts) ---------- */
+
+.page { transform-origin: 50% 0; }
+
+@keyframes enter-zoom { from { opacity: 0; transform: scale(0.94); } }
+@keyframes enter-from-right { from { opacity: 0; transform: translateX(56px); } }
+@keyframes enter-from-left { from { opacity: 0; transform: translateX(-56px); } }
+@keyframes enter-up { from { opacity: 0; transform: translateY(48px); } }
+@keyframes enter-down { from { opacity: 0; transform: translateY(-48px); } }
+@keyframes enter-wipe { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes enter-circle {
+  from { clip-path: circle(0% at var(--tx, 50%) var(--ty, 30%)); }
+  to { clip-path: circle(150% at var(--tx, 50%) var(--ty, 30%)); }
+}
+@keyframes enter-blur { from { opacity: 0; filter: blur(10px); } }
+@keyframes enter-fade { from { opacity: 0; } }
+
+.page[data-enter="zoom"] { animation: enter-zoom 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) backwards; }
+.page[data-enter="slide-right"] { animation: enter-from-right 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) backwards; }
+.page[data-enter="slide-left"] { animation: enter-from-left 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) backwards; }
+.page[data-enter="slide-up"] { animation: enter-up 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) backwards; }
+.page[data-enter="slide-down"] { animation: enter-down 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) backwards; }
+.page[data-enter="wipe"] { animation: enter-wipe 0.45s cubic-bezier(0.65, 0, 0.35, 1) backwards; }
+.page[data-enter="circle"] { animation: enter-circle 0.47s cubic-bezier(0.4, 0, 0.2, 1) backwards; }
+.page[data-enter="blur"] { animation: enter-blur 0.45s ease-out backwards; }
+.page[data-enter="fade"] { animation: enter-fade 0.35s ease-out backwards; }
+
+/* Exit (220 ms): the leaving page moves in the same family as the page that is coming. */
+body[data-leave] .page { transition: transform 0.22s ease-in, opacity 0.22s ease-in, clip-path 0.22s ease-in, filter 0.22s ease-in; }
+body[data-leave="zoom"] .page { opacity: 0; transform: scale(1.04); }
+body[data-leave="slide-right"] .page { opacity: 0; transform: translateX(-48px); }
+body[data-leave="slide-left"] .page { opacity: 0; transform: translateX(48px); }
+body[data-leave="slide-up"] .page { opacity: 0; transform: translateY(-36px); }
+body[data-leave="slide-down"] .page { opacity: 0; transform: translateY(36px); }
+body[data-leave="wipe"] .page { clip-path: inset(0 0 0 100%); }
+body[data-leave="circle"] .page { opacity: 0; transform: scale(0.98); }
+body[data-leave="blur"] .page { opacity: 0; filter: blur(8px); }
+body[data-leave="fade"] .page { opacity: 0; }
+
+/* ---------- Scroll reveal and hand-drawn heading underline ---------- */
+
+.reveal {
+  opacity: 0;
+  transform: scale(0.95) translateY(18px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition-delay: var(--d, 0ms);
+}
+.reveal[data-shown] { opacity: 1; transform: none; }
+
+.scribble path {
+  stroke-dasharray: 260;
+  stroke-dashoffset: 260;
+  transition: stroke-dashoffset 1.1s cubic-bezier(0.65, 0, 0.35, 1) 0.35s;
+}
+.reveal[data-shown] .scribble path { stroke-dashoffset: 0; }
+
+/* ---------- Photos ---------- */
+
+/* Organic photo shapes. The blob shapes are SVG clip paths defined once in components/Shapes.tsx. */
+.mask-blob-1 { clip-path: url(#blob-1); }
+.mask-blob-2 { clip-path: url(#blob-2); }
+.mask-blob-3 { clip-path: url(#blob-3); }
+.mask-arch { border-radius: 999px 999px 1.5rem 1.5rem; }
+
+@keyframes kenburns {
+  from { transform: scale(1) translate3d(0, 0, 0); }
+  to { transform: scale(1.12) translate3d(-1.5%, -1%, 0); }
+}
+.kenburns { animation: kenburns 32s ease-in-out infinite alternate; will-change: transform; }
+
+/* Faint hoof prints for deep green bands. */
+.hoof-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M22 30c-5 0-8 6-7 12 1 5 5 7 8 6 3-1 4-6 3-11-1-4-2-7-4-7zm11 0c-2 0-3 3-4 7-1 5 0 10 3 11 3 1 7-1 8-6 1-6-2-12-7-12z'/%3E%3Cpath d='M80 76c-5 0-8 6-7 12 1 5 5 7 8 6 3-1 4-6 3-11-1-4-2-7-4-7zm11 0c-2 0-3 3-4 7-1 5 0 10 3 11 3 1 7-1 8-6 1-6-2-12-7-12z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* ---------- Goat-themed details ---------- */
+
+/* Walking goat legs (components/GoatWalk.tsx). */
+@keyframes leg-a { 0%, 100% { transform: rotate(14deg); } 50% { transform: rotate(-14deg); } }
+@keyframes leg-b { 0%, 100% { transform: rotate(-14deg); } 50% { transform: rotate(14deg); } }
+.goat-leg { transform-box: fill-box; transform-origin: 50% 0; }
+.goat[data-walking] .goat-leg.a { animation: leg-a 0.5s ease-in-out infinite; }
+.goat[data-walking] .goat-leg.b { animation: leg-b 0.5s ease-in-out infinite; }
+.hoofprint { transition: opacity 0.5s ease; }
+
+/* Fact ticker. */
+@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.ticker-track { animation: ticker 70s linear infinite; }
+.ticker:hover .ticker-track,
+.ticker:focus-within .ticker-track,
+.ticker[data-paused] .ticker-track { animation-play-state: paused; }
+
+/* Grass at the top of the footer. */
+@keyframes sway { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(5deg); } }
+.blade { transform-box: fill-box; transform-origin: 50% 100%; animation: sway 4.5s ease-in-out infinite; }
+
+/* Hoof-print cursor trail (desktop mouse only, see components/HoofTrail.tsx). */
+@keyframes print-fade { from { opacity: 0.55; } to { opacity: 0; } }
+.trail-print { position: fixed; pointer-events: none; z-index: 90; color: var(--color-forest-700); animation: print-fade 0.9s ease-out forwards; }
+
+/* Carousel progress line. */
+@keyframes progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.progress-line { transform-origin: 0 50%; animation: progress var(--dur, 6s) linear forwards; }
+
+/* First-load screen: always fades out, even if JavaScript is slow or fails. */
+.ig-loader { animation: ig-loader-out 0.4s ease 2.5s forwards; }
+@keyframes ig-loader-out { to { opacity: 0; visibility: hidden; pointer-events: none; } }
+
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .page-zoom, .hero-photo { animation: none; }
+  .page[data-enter], .kenburns, .ticker-track, .blade, .progress-line, .goat-leg { animation: none !important; }
+  body[data-leave] .page { transition: none; opacity: 1; transform: none; clip-path: none; filter: none; }
   .reveal { opacity: 1; transform: none; transition: none; }
-  body.zoom-out .page-zoom { transform: none; opacity: 1; }
+  .scribble path { stroke-dashoffset: 0; transition: none; }
+  .hoofprint { transition: none; }
 }

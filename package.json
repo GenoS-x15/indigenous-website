@@ -7,6 +7,7 @@
     "dev": "next dev",
     "prebuild": "node scripts/app-meta.mjs",
     "build": "next build",
+    "postbuild": "node scripts/fix-export.mjs",
     "lint": "eslint"
   },
   "dependencies": {

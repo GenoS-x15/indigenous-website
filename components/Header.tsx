@@ -4,7 +4,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useLang } from "./LanguageProvider";
-import { ZoomLink } from "./ZoomLink";
+import { TransitionLink } from "./TransitionLink";
 import { EmailLink } from "./EmailLink";
 import { appSource } from "./AppDownload";
 import { LANGS } from "@/lib/site";
@@ -59,7 +59,7 @@ export function Header() {
       {/* Main bar */}
       <div className="border-b border-forest-100 bg-white/90 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2.5 sm:px-6">
-          <ZoomLink href="/" className="flex min-w-0 items-center gap-3" onClick={() => setOpen(false)}>
+          <TransitionLink href="/" className="flex min-w-0 items-center gap-3" onClick={() => setOpen(false)}>
             <Image src="/logo.png" alt="" width={48} height={48} className="h-11 w-11 shrink-0 sm:h-12 sm:w-12" priority />
             <span className="min-w-0 leading-tight">
               <span className="block text-lg font-extrabold tracking-wide text-forest-900 sm:text-xl">
@@ -69,37 +69,38 @@ export function Header() {
                 {t.brand.full}
               </span>
             </span>
-          </ZoomLink>
+          </TransitionLink>
 
           <nav className="hidden items-center gap-0.5 xl:flex" aria-label="Primary">
             {NAV.map((n) => (
-              <ZoomLink
+              <TransitionLink
                 key={n.key}
                 href={n.href}
-                className={`rounded-full px-3 py-2 text-sm font-semibold transition-colors ${
-                  isActive(n.href) ? "bg-forest-100 text-forest-900" : "text-forest-800 hover:bg-forest-50"
+                aria-current={isActive(n.href) ? "page" : undefined}
+                className={`relative px-3 py-2 text-sm font-semibold transition-colors after:absolute after:inset-x-3 after:-bottom-0.5 after:h-0.5 after:rounded-full after:bg-forest-600 after:transition-transform ${
+                  isActive(n.href) ? "text-forest-950 after:scale-x-100" : "text-forest-800 after:scale-x-0 hover:text-forest-950 hover:after:scale-x-100"
                 }`}
               >
                 {t.nav[n.key]}
-              </ZoomLink>
+              </TransitionLink>
             ))}
           </nav>
 
           <div className="flex items-center gap-2">
             {appSource !== "none" && (
-              <ZoomLink
+              <TransitionLink
                 href="/download/"
                 className="hidden rounded-full px-3 py-2 text-sm font-semibold text-forest-800 transition hover:bg-forest-50 2xl:inline-block"
               >
                 {t.nav.download}
-              </ZoomLink>
+              </TransitionLink>
             )}
-            <ZoomLink
+            <TransitionLink
               href="/staff/"
               className="hidden rounded-full bg-forest-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-forest-800 sm:inline-block"
             >
               {t.nav.staff}
-            </ZoomLink>
+            </TransitionLink>
             <button
               type="button"
               className="rounded-lg border border-forest-200 p-2 text-forest-900 xl:hidden"
@@ -120,36 +121,37 @@ export function Header() {
             <ul className="grid gap-1">
               {NAV.map((n) => (
                 <li key={n.key}>
-                  <ZoomLink
+                  <TransitionLink
                     href={n.href}
                     onClick={() => setOpen(false)}
-                    className={`block rounded-xl px-4 py-3 text-base font-semibold ${
-                      isActive(n.href) ? "bg-forest-100 text-forest-900" : "text-forest-800 hover:bg-forest-50"
+                    aria-current={isActive(n.href) ? "page" : undefined}
+                    className={`block border-l-4 px-4 py-3 text-base font-semibold ${
+                      isActive(n.href) ? "border-forest-600 text-forest-950" : "border-transparent text-forest-800 hover:border-forest-200"
                     }`}
                   >
                     {t.nav[n.key]}
-                  </ZoomLink>
+                  </TransitionLink>
                 </li>
               ))}
               {appSource !== "none" && (
                 <li>
-                  <ZoomLink
+                  <TransitionLink
                     href="/download/"
                     onClick={() => setOpen(false)}
-                    className="block rounded-xl px-4 py-3 text-base font-semibold text-forest-800 hover:bg-forest-50"
+                    className="block border-l-4 border-transparent px-4 py-3 text-base font-semibold text-forest-800 hover:border-forest-200"
                   >
                     {t.nav.download}
-                  </ZoomLink>
+                  </TransitionLink>
                 </li>
               )}
               <li>
-                <ZoomLink
+                <TransitionLink
                   href="/staff/"
                   onClick={() => setOpen(false)}
                   className="mt-1 block rounded-xl bg-forest-700 px-4 py-3 text-center text-base font-semibold text-white"
                 >
                   {t.nav.staff}
-                </ZoomLink>
+                </TransitionLink>
               </li>
             </ul>
           </nav>

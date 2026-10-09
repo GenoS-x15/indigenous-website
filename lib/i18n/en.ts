@@ -30,6 +30,7 @@ export const en = {
     comingSoon: "Available soon",
   },
   hero: {
+    alt: "A black goat standing on a green hillside, with cattle and a herder in the distance",
     kicker: "Zalawadi Goat Milk Enhancement Project",
     title: "Indigenous goat breeds, cared for with science and community",
     text: "We work with goat rearers in Dhule and Nandurbar districts of Maharashtra to improve the quality, quantity and consistency of goat milk, and to give rearing families a steady livelihood.",
@@ -38,6 +39,7 @@ export const en = {
     scroll: "Scroll",
   },
   stats: {
+    title: "The project at a glance",
     villages: "Villages in the project",
     districts: "Districts covered",
     chillers: "Bulk milk chillers at the dairy, 5,000 litres each",
@@ -312,6 +314,8 @@ export const en = {
     dairyTitle: "Dairy and milk processing centre",
     dairyText: "The dairy at Malpur has a conveyor belt, a computerised weighing machine with dump tank, six bulk milk chillers of 5,000 litres each, a laboratory for all types of milk testing, a hot water boiler, a 125 kVA generator and an air-conditioning unit. Daily delivery of Zalawadi goat milk has started from Malpur.",
     associatesTitle: "Associated organisations",
+    targetLabels: ["Year one", "Within two years", "Long-term goal"],
+    perDay: "litres a day",
     chart: "Litres per day: year one, within two years, long-term goal",
   },
   about: {
@@ -377,6 +381,98 @@ export const en = {
     ],
     secure: "Sign in with the email and password given by the administrator. Never share your password. Contact the administrator if you forget it.",
   },
+  alt: {
+    about: "Green countryside and a river valley near Panchgani, Maharashtra",
+    project: "A milkman's bicycle loaded with steel milk cans",
+    guide: "A flock of Beetal goats grazing in dry grass",
+    training: "A rural woman holding her black goats as they eat fresh leaves",
+    events: "Farmers sowing a field with a bullock-drawn plough",
+    staff: "Green paddy fields below misty hills in the Western Ghats",
+    contact: "Green hills of the Sahyadri range at Bhimashankar, Maharashtra",
+    kids: "Two young goat kids resting together",
+    grazing: "A herd of goats walking out to graze",
+    fodder: "A young goat eating green fodder",
+    milkCans: "Steel milk cans ready to carry milk from the village",
+    zalawadi: "A black Zalawadi goat standing in a farm yard",
+  },
+  lifecycle: {
+    title: "A goat's life, stage by stage",
+    intro: "What a rearer can do at each stage, taken from the care guide and the training material on this site.",
+    stages: [
+      { t: "Kid", d: "Colostrum within 30 minutes of birth. Keep the kid clean, dry and warm, and weigh it at birth and every 15 days." },
+      { t: "Growing doe", d: "Deworm at one month and then monthly up to six months. Give 250 to 400 g of concentrate a day, depending on her stage." },
+      { t: "First breeding", d: "When she reaches about 65 to 70 percent of her adult weight, around 15 to 18 months of age, as the veterinarian advises." },
+      { t: "Kidding", d: "Pregnancy lasts about five months. Deworm about two weeks before kidding and keep clean drinking water ready for the doe." },
+      { t: "Lactation", d: "Give 300 to 400 g of concentrate a day for two months after kidding, milk hygienically and record the milk morning and evening." },
+    ],
+  },
+  journey: {
+    title: "The journey of a litre of milk",
+    intro: "From the rearer's shed to a family's kitchen, every litre is collected, cooled, tested and recorded.",
+    steps: [
+      { t: "The goat", d: "Every goat is tagged, and her milk, health and feed are recorded each day." },
+      { t: "Milking", d: "Clean hands, a clean udder and clean vessels, morning and evening." },
+      { t: "Chilling", d: "Six bulk milk chillers of 5,000 litres each cool the milk at the dairy." },
+      { t: "Testing", d: "The laboratory checks the milk and keeps a record of every litre." },
+      { t: "Processing", d: "The dairy and processing centre at Malpur prepares the milk." },
+      { t: "To the family", d: "Daily delivery of Zalawadi goat milk goes out from Malpur." },
+    ],
+  },
+  ticker: {
+    title: "Did you know",
+    pause: "Pause facts",
+    play: "Play facts",
+    // Sources: items 1-7 and 9 restate the care guide on this site (guide.sections), which is based on
+    // the TNAU Agritech, ICRISAT and eXtension material listed in guide.sourcesList.
+    // Item 8 is general knowledge (eXtension Goats, veterinary textbooks). TO VERIFY by the owner.
+    facts: [
+      "Pregnancy in goats lasts about five months.",
+      "A newborn kid should drink colostrum within 30 minutes of birth.",
+      "A kid needs colostrum equal to about one tenth of its body weight.",
+      "A healthy goat eats well, chews the cud and has bright eyes.",
+      "Goats need clean drinking water available at all times.",
+      "One buck is enough for about 10 young does or up to 20 adult does.",
+      "Trimming hooves every 6 to 8 weeks helps where foot problems occur.",
+      "Goats are ruminants: their stomach has four compartments.",
+      "Milk from a goat under medicine must not be used until the withdrawal period is over.",
+    ],
+  },
+  calc: {
+    title: "Daily feed calculator",
+    intro: "The rule field staff use in the {app} app: total daily feed is 4 percent of body weight, of which 90 percent is silage and 10 percent is concentrate mixture.",
+    label: "Goat's weight (kg)",
+    total: "Total feed a day",
+    silage: "Silage",
+    mixture: "Concentrate mixture",
+    kg: "kg",
+    invalid: "Enter a weight between 1 and 150 kg.",
+    disclaimer: "This is a guide only. Needs change with age, pregnancy, milk yield and fodder quality, so check the ration with your veterinarian.",
+  },
+  breed: {
+    kicker: "Breed spotlight",
+    name: "Zalawadi goat",
+    hint: "Tap or hover over the photo to learn more",
+    show: "Show breed details",
+    hide: "Hide breed details",
+    // Only facts already on this site. Commonly published details the owner should VERIFY before adding:
+    // origin in the Zalawad area of Gujarat, long drooping ears, twisted horns, and milk yield figures.
+    facts: [
+      { t: "Where", d: "Reared by families in Dhule and Nandurbar districts of Maharashtra, the area of our project." },
+      { t: "Purpose", d: "Milk. Daily delivery of Zalawadi goat milk has started from our dairy at Malpur." },
+      { t: "Care", d: "Zalawadi goats in the area are ear tagged with the Animal Husbandry Department, and each goat's milk, health and feed are recorded daily." },
+    ],
+  },
+  guidePage: { onThisPage: "On this page" },
+  carousel: { prev: "Previous photo", next: "Next photo", pause: "Pause slideshow", play: "Play slideshow", slideOf: "Photo {n} of {total}" },
+  credits: {
+    title: "Image credits",
+    intro: "Photos on this website taken by other photographers, with their licences. Photos of our own work belong to Indigenous Goat Breed Development Pvt. Ltd.",
+    note: "Each photo has been cropped, resized and compressed for the web.",
+    photo: "Photo",
+    author: "Author",
+    licence: "Licence",
+    view: "View original",
+  },
   app: {
     title: "Download the {app} app",
     intro: "{app} is the Android app that goat owners, Pashu Sakhi and LSS Officers use to record and verify daily goat data.",
@@ -413,6 +509,7 @@ export const en = {
     legal: "Privacy policy",
   },
   footer: {
+    credits: "Image credits",
     explore: "Explore",
     legalTitle: "Legal",
     privacy: "Privacy Policy",

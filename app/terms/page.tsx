@@ -14,7 +14,7 @@ export default function Page() {
     <LegalPage title="Terms of Use">
       <section>
         <p>
-          By using this website or the Indigenous mobile app you agree to these terms. If you do not agree, please do not use them.
+          By using this website or the {SITE.app.name} mobile app you agree to these terms. If you do not agree, please do not use them.
           The service is provided by {SITE.legalName}.
         </p>
       </section>

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { withApp } from "@/lib/site";
 import { useLang } from "./LanguageProvider";
 
 /** Tabbed summary of the care guide for the home page. */
@@ -51,7 +52,7 @@ export function GuideTabs() {
             {s.points.map((p) => (
               <li key={p} className="flex gap-3 text-[15px] leading-relaxed text-ink">
                 <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-forest-500" aria-hidden />
-                <span>{p}</span>
+                <span>{withApp(p)}</span>
               </li>
             ))}
           </ul>

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useLang } from "./LanguageProvider";
+import { copyText } from "@/lib/clipboard";
 import { SITE } from "@/lib/site";
 
 /** Phones and tablets have a mail app, so mailto: works there. Desktops often do not. */
@@ -14,29 +15,6 @@ function isMobileDevice() {
 const gmailUrl = (subject?: string) =>
   `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(SITE.email)}` +
   (subject ? `&su=${encodeURIComponent(subject)}` : "");
-
-async function copyText(text: string) {
-  try {
-    await navigator.clipboard.writeText(text);
-    return true;
-  } catch {
-    // Fallback for older browsers or blocked clipboard access: copy a selected hidden field.
-    const field = document.createElement("textarea");
-    field.value = text;
-    field.setAttribute("readonly", "");
-    field.style.cssText = "position:fixed;top:0;left:0;opacity:0";
-    document.body.appendChild(field);
-    field.select();
-    let ok = false;
-    try {
-      ok = document.execCommand("copy");
-    } catch {
-      ok = false;
-    }
-    field.remove();
-    return ok;
-  }
-}
 
 /**
  * The company email address as a link that works everywhere:

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { withApp } from "@/lib/site";
 import { useLang } from "../LanguageProvider";
 import { Reveal } from "../Reveal";
 import { Check, Container, PageBanner } from "../ui";
@@ -36,7 +37,7 @@ export function GuideView() {
                   <p className="mt-2 text-forest-700">{s.summary}</p>
                   <ul className="mt-5 space-y-3 text-[15px] text-ink">
                     {s.points.map((p) => (
-                      <Check key={p}>{p}</Check>
+                      <Check key={p}>{withApp(p)}</Check>
                     ))}
                   </ul>
                 </div>

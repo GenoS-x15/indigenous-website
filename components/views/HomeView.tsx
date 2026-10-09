@@ -5,6 +5,7 @@ import { useLang } from "../LanguageProvider";
 import { ZoomLink } from "../ZoomLink";
 import { Reveal } from "../Reveal";
 import { Carousel } from "../Carousel";
+import { AppDownload } from "../AppDownload";
 import { GuideTabs } from "../GuideTabs";
 import { Container, Photo, SectionTitle } from "../ui";
 import { EVENT_IMAGES } from "@/lib/events";
@@ -155,6 +156,9 @@ export function HomeView() {
             <div className="max-w-2xl">
               <h2 className="text-3xl font-extrabold">{t.staff.title}</h2>
               <p className="mt-3 text-lg text-forest-100">{t.staff.intro}</p>
+              <div className="mt-6">
+                <AppDownload compact dark />
+              </div>
             </div>
             <ZoomLink href="/staff/" className="rounded-full bg-white px-7 py-3.5 font-bold text-forest-900 transition hover:-translate-y-0.5 hover:bg-forest-100">
               {t.nav.staff}

@@ -5,7 +5,7 @@ import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Account and Data Deletion",
-  description: "How to request deletion of your Indigenous app account and the data linked to it.",
+  description: `How to request deletion of your ${SITE.app.name} app account and the data linked to it.`,
   alternates: { canonical: "/account-deletion/" },
 };
 
@@ -14,7 +14,7 @@ export default function Page() {
     <LegalPage title="Account and Data Deletion">
       <section>
         <p>
-          Accounts in the Indigenous app are created and removed by {SITE.legalName}, because they are linked to the goat project
+          Accounts in the {SITE.app.name} app are created and removed by {SITE.legalName}, because they are linked to the goat project
           and to the field staff who verify the data. You can ask us to delete your account and the personal data linked to it at
           any time.
         </p>

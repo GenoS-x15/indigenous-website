@@ -15,6 +15,8 @@ export const SITE = {
   ],
   mapsUrl:
     "https://www.google.com/maps/search/?api=1&query=Goat+Dairy+Amravati+Dam+Road+Malpur+Sindkheda+Dhule+425408",
+  // The Android app. Texts write "{app}" where the name goes; change the name here only.
+  app: { name: "Zalgo" },
   // Set these in .env.local (see .env.example). Empty = button shows "coming soon".
   adminUrl: process.env.NEXT_PUBLIC_ADMIN_URL ?? "",
   appUrl: process.env.NEXT_PUBLIC_APP_URL ?? "",
@@ -24,6 +26,9 @@ export const SITE = {
     logo: "/genos-logo.png",
   },
 } as const;
+
+/** Puts the app name into a text that contains "{app}". */
+export const withApp = (text: string) => text.replaceAll("{app}", SITE.app.name);
 
 export type LangCode = "en" | "hi" | "mr";
 export const LANGS: { code: LangCode; label: string; short: string }[] = [

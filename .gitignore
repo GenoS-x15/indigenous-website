@@ -5,3 +5,5 @@ out
 .env
 *.tsbuildinfo
 next-env.d.ts
+# The Android app is uploaded with the site, not kept in git
+public/downloads/*.apk

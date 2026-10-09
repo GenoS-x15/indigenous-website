@@ -15,7 +15,7 @@ export default function Page() {
       <section>
         <p>
           This policy explains how {SITE.legalName} (&quot;Indigenous&quot;, &quot;we&quot;, &quot;us&quot;) handles personal data
-          in the Indigenous mobile app (the &quot;App&quot;) and on this website. The App is used by goat owners, Pashu Sakhi and
+          in the {SITE.app.name} mobile app (the &quot;App&quot;) and on this website. The App is used by goat owners, Pashu Sakhi and
           LSS Officers to record and verify goat data. We handle personal data in line with applicable Indian law.
         </p>
       </section>

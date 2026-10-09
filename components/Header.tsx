@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useLang } from "./LanguageProvider";
 import { ZoomLink } from "./ZoomLink";
 import { EmailLink } from "./EmailLink";
+import { appSource } from "./AppDownload";
 import { LANGS } from "@/lib/site";
 
 export const NAV = [
@@ -85,6 +86,14 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
+            {appSource !== "none" && (
+              <ZoomLink
+                href="/download/"
+                className="hidden rounded-full px-3 py-2 text-sm font-semibold text-forest-800 transition hover:bg-forest-50 2xl:inline-block"
+              >
+                {t.nav.download}
+              </ZoomLink>
+            )}
             <ZoomLink
               href="/staff/"
               className="hidden rounded-full bg-forest-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-forest-800 sm:inline-block"
@@ -122,6 +131,17 @@ export function Header() {
                   </ZoomLink>
                 </li>
               ))}
+              {appSource !== "none" && (
+                <li>
+                  <ZoomLink
+                    href="/download/"
+                    onClick={() => setOpen(false)}
+                    className="block rounded-xl px-4 py-3 text-base font-semibold text-forest-800 hover:bg-forest-50"
+                  >
+                    {t.nav.download}
+                  </ZoomLink>
+                </li>
+              )}
               <li>
                 <ZoomLink
                   href="/staff/"

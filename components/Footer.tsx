@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useLang } from "./LanguageProvider";
 import { ZoomLink } from "./ZoomLink";
 import { EmailLink } from "./EmailLink";
+import { appSource } from "./AppDownload";
 import { NAV } from "./Header";
 import { SITE } from "@/lib/site";
 
@@ -34,6 +35,11 @@ export function Footer() {
             <li>
               <ZoomLink href="/staff/" className="hover:text-white">{t.nav.staff}</ZoomLink>
             </li>
+            {appSource !== "none" && (
+              <li>
+                <ZoomLink href="/download/" className="hover:text-white">{t.nav.download}</ZoomLink>
+              </li>
+            )}
           </ul>
         </div>
 

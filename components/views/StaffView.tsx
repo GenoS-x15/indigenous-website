@@ -4,8 +4,9 @@ import { useState } from "react";
 import { useLang } from "../LanguageProvider";
 import { Reveal } from "../Reveal";
 import { Spinner } from "../Loader";
+import { AppDownload } from "../AppDownload";
 import { Container, PageBanner, SectionTitle } from "../ui";
-import { SITE } from "@/lib/site";
+import { SITE, withApp } from "@/lib/site";
 
 export function StaffView() {
   const { t } = useLang();
@@ -41,16 +42,10 @@ export function StaffView() {
 
           <Reveal delay={120} className="rounded-3xl bg-forest-50 p-8">
             <h2 className="text-2xl font-extrabold text-forest-900">{s.appTitle}</h2>
-            <p className="mt-3 leading-relaxed text-forest-950/85">{s.appText}</p>
-            {SITE.appUrl ? (
-              <a href={SITE.appUrl} target="_blank" rel="noopener noreferrer" className="mt-7 inline-block rounded-full border-2 border-forest-700 px-7 py-3.5 font-bold text-forest-800 transition hover:bg-forest-100">
-                {s.appBtn}
-              </a>
-            ) : (
-              <p className="mt-7 inline-block rounded-full border-2 border-dashed border-forest-300 px-7 py-3 font-semibold text-forest-700">
-                {s.appBtn} ({t.common.comingSoon})
-              </p>
-            )}
+            <p className="mt-3 leading-relaxed text-forest-950/85">{withApp(s.appText)}</p>
+            <div className="mt-7">
+              <AppDownload />
+            </div>
           </Reveal>
         </Container>
       </section>
